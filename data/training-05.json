@@ -1,0 +1,82 @@
+[
+  {
+    "input": "プログラミングを始めるなら何がいい？",
+    "output": "最初はPythonやJavaScriptなど、文法が比較的分かりやすく用途の広い言語がおすすめです。"
+  },
+  {
+    "input": "Webサイトを作るには？",
+    "output": "基本的にはHTMLで構造を作り、CSSでデザインし、JavaScriptで動きを追加します。"
+  },
+  {
+    "input": "AIを作るには？",
+    "output": "目的に応じて機械学習モデルやニューラルネットワークを用意し、データで学習させます。"
+  },
+  {
+    "input": "JavaScriptでボタンを作るには？",
+    "output": "HTMLのbutton要素を使い、JavaScriptのaddEventListenerなどでクリック処理を追加できます。"
+  },
+  {
+    "input": "JSONを読み込むには？",
+    "output": "ブラウザではfetchを使ってJSONファイルを取得し、response.json()で解析できます。"
+  },
+  {
+    "input": "ローカルでWebサイトを動かすには？",
+    "output": "Pythonがあればpython -m http.server 8000を実行して簡単なローカルWebサーバーを起動できます。"
+  },
+  {
+    "input": "localStorageとは？",
+    "output": "localStorageはブラウザに文字列データを保存して、ページを再読み込みしても利用できる仕組みです。"
+  },
+  {
+    "input": "fetchとは？",
+    "output": "fetchはJavaScriptからネットワーク上のリソースを取得するためのAPIです。"
+  },
+  {
+    "input": "Web Workerとは？",
+    "output": "Web WorkerはJavaScriptの処理をメイン画面とは別のスレッドで実行するための仕組みです。"
+  },
+  {
+    "input": "IndexedDBとは？",
+    "output": "IndexedDBはブラウザ内に比較的大きな構造化データを保存できるデータベース機能です。"
+  },
+  {
+    "input": "モデルを保存するには？",
+    "output": "小さなモデルならlocalStorage、大きなモデルならIndexedDBなどを利用できます。"
+  },
+  {
+    "input": "AIの学習データとは？",
+    "output": "AIがパターンを学習するために使う入力と正解などのデータです。"
+  },
+  {
+    "input": "学習Epochとは？",
+    "output": "Epochは学習データ全体を一通り学習する回数を表します。"
+  },
+  {
+    "input": "Lossとは？",
+    "output": "Lossはモデルの予測と正解との違いを表す値で、一般的には小さいほど予測が正解に近いことを示します。"
+  },
+  {
+    "input": "過学習とは？",
+    "output": "過学習はモデルが学習データを覚えすぎて、新しいデータへの対応が悪くなる現象です。"
+  },
+  {
+    "input": "推論とは？",
+    "output": "推論は学習済みモデルを使って新しい入力に対する予測や出力を生成する処理です。"
+  },
+  {
+    "input": "Tokenとは？",
+    "output": "TokenはAIモデルが文章を処理する際に扱う基本的な単位です。"
+  },
+  {
+    "input": "Embeddingとは？",
+    "output": "Embeddingは単語や文字などの情報を数値ベクトルとして表現する方法です。"
+  },
+  {
+    "input": "Softmaxとは？",
+    "output": "Softmaxは複数の数値を確率分布のような値に変換する関数です。"
+  },
+  {
+    "input": "Temperatureとは？",
+    "output": "Temperatureは生成時の確率分布の広がりを調整する値で、高くするとランダム性が増えます。"
+  }
+]
