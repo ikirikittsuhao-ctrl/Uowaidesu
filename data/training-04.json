@@ -1,0 +1,82 @@
+[
+  {
+    "input": "HTMLとは？",
+    "output": "HTMLはWebページの構造や内容を記述するためのマークアップ言語です。"
+  },
+  {
+    "input": "CSSとは？",
+    "output": "CSSはWebページの色やサイズ、配置などの見た目を指定するためのスタイルシート言語です。"
+  },
+  {
+    "input": "HTMLとCSSの違いは？",
+    "output": "HTMLはページの構造を作り、CSSはその見た目やレイアウトを指定します。"
+  },
+  {
+    "input": "divとは？",
+    "output": "divはHTMLで要素をグループ化するためによく使われる汎用的なコンテナ要素です。"
+  },
+  {
+    "input": "buttonとは？",
+    "output": "buttonはユーザーがクリックなどの操作を行うためのHTML要素です。"
+  },
+  {
+    "input": "inputとは？",
+    "output": "inputはユーザーから文字や数値などの入力を受け取るためのHTML要素です。"
+  },
+  {
+    "input": "formとは？",
+    "output": "formはユーザーから入力されたデータをまとめて送信するためのHTML要素です。"
+  },
+  {
+    "input": "flexboxとは？",
+    "output": "Flexboxは要素を一方向に柔軟に配置するためのCSSレイアウト機能です。"
+  },
+  {
+    "input": "gridとは？",
+    "output": "CSS Gridは行と列を使って複雑なレイアウトを作るためのCSS機能です。"
+  },
+  {
+    "input": "display flexとは？",
+    "output": "display:flexを指定すると、その要素をFlexコンテナとして子要素を柔軟に配置できます。"
+  },
+  {
+    "input": "marginとは？",
+    "output": "marginは要素の外側に余白を設定するCSSプロパティです。"
+  },
+  {
+    "input": "paddingとは？",
+    "output": "paddingは要素の内側に余白を設定するCSSプロパティです。"
+  },
+  {
+    "input": "borderとは？",
+    "output": "borderは要素の周囲に線を表示するためのCSSプロパティです。"
+  },
+  {
+    "input": "colorとは？",
+    "output": "colorは主に文字の色を指定するCSSプロパティです。"
+  },
+  {
+    "input": "backgroundとは？",
+    "output": "backgroundは要素の背景色や背景画像などを指定するCSSプロパティです。"
+  },
+  {
+    "input": "レスポンシブデザインとは？",
+    "output": "レスポンシブデザインは画面サイズに合わせてWebページのレイアウトを変化させる設計方法です。"
+  },
+  {
+    "input": "Media Queryとは？",
+    "output": "Media Queryは画面サイズや端末の条件に応じてCSSを切り替える仕組みです。"
+  },
+  {
+    "input": "DOMとは？",
+    "output": "DOMはHTML文書をJavaScriptから操作できるようにしたオブジェクト構造です。"
+  },
+  {
+    "input": "querySelectorとは？",
+    "output": "querySelectorはCSSセレクターを使ってHTML要素を取得するJavaScriptのメソッドです。"
+  },
+  {
+    "input": "addEventListenerとは？",
+    "output": "addEventListenerはクリックなどのイベントが発生したときに実行する処理を登録するメソッドです。"
+  }
+]
