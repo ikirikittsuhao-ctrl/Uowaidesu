@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#08111f">
+<title>Frontend AI</title>
+<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+<div class="app">
+
+<header class="topbar">
+    <div class="brand">
+        <div class="brand-icon">AI</div>
+        <div>
+            <div class="brand-title">Frontend AI</div>
+            <div class="brand-subtitle">Browser Neural AI</div>
+        </div>
+    </div>
+
+    <div class="header-status">
+        <span class="status-dot"></span>
+        <span id="statusText">準備中...</span>
+    </div>
+
+    <button id="settingsButton" class="icon-button" title="設定">
+        ⚙
+    </button>
+</header>
+
+<main class="main">
+
+<section class="chat-panel">
+
+    <div id="chat" class="chat">
+
+        <div id="welcome" class="welcome">
+            <div class="welcome-icon">✦</div>
+            <h1>Frontend AI</h1>
+            <p>
+                ブラウザだけで動作する小型AIです。
+                学習データをJSONから読み込み、ブラウザ上で学習できます。
+            </p>
+
+            <div class="quick-grid">
+                <button class="quick-button" data-prompt="こんにちは">
+                    こんにちは
+                </button>
+
+                <button class="quick-button" data-prompt="あなたの名前は？">
+                    あなたの名前は？
+                </button>
+
+                <button class="quick-button" data-prompt="JavaScriptとは？">
+                    JavaScriptとは？
+                </button>
+
+                <button class="quick-button" data-prompt="HTMLとは？">
+                    HTMLとは？
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="typing" id="typing">
+        <span></span>
+        <span></span>
+        <span></span>
+        AIが考えています...
+    </div>
+
+    <div class="composer">
+
+        <textarea
+            id="messageInput"
+            placeholder="メッセージを入力..."
+            rows="1"
+        ></textarea>
+
+        <button id="sendButton" class="send-button">
+            送信
+        </button>
+
+    </div>
+
+    <div class="composer-actions">
+        <button id="trainButton" class="small-button">
+            🧠 学習
+        </button>
+
+        <button id="clearButton" class="small-button">
+            🗑 履歴を消去
+        </button>
+
+        <button id="addDataButton" class="small-button">
+            ＋ 学習データ
+        </button>
+
+        <button id="exportDataButton" class="small-button">
+            JSON出力
+        </button>
+
+        <button id="importDataButton" class="small-button">
+            JSON読込
+        </button>
+
+        <input
+            id="importDataInput"
+            type="file"
+            accept=".json,application/json"
+            hidden
+        >
+    </div>
+
+</section>
+
+<aside id="sidePanel" class="side-panel">
+
+    <div class="panel-header">
+        <h2>AI設定</h2>
+
+        <button id="closeSettingsButton" class="icon-button">
+            ×
+        </button>
+    </div>
+
+    <div class="panel-content">
+
+        <div class="info-card">
+
+            <div class="info-title">
+                モデル
+            </div>
+
+            <div class="info-row">
+                <span>状態</span>
+                <strong id="modelStatus">未初期化</strong>
+            </div>
+
+            <div class="info-row">
+                <span>語彙数</span>
+                <strong id="vocabSize">0</strong>
+            </div>
+
+            <div class="info-row">
+                <span>学習データ</span>
+                <strong id="dataSize">0</strong>
+            </div>
+
+            <div class="info-row">
+                <span>Loss</span>
+                <strong id="lossValue">-</strong>
+            </div>
+
+        </div>
+
+        <div class="setting-card">
+
+            <label>
+                Temperature
+                <span id="temperatureValue">0.65</span>
+            </label>
+
+            <input
+                id="temperature"
+                type="range"
+                min="0.1"
+                max="1.5"
+                step="0.05"
+                value="0.65"
+            >
+
+        </div>
+
+        <div class="setting-card">
+
+            <label>
+                Top-K
+                <span id="topKValue">8</span>
+            </label>
+
+            <input
+                id="topK"
+                type="range"
+                min="1"
+                max="30"
+                step="1"
+                value="8"
+            >
+
+        </div>
+
+        <div class="setting-card">
+
+            <label>
+                Top-P
+                <span id="topPValue">0.90</span>
+            </label>
+
+            <input
+                id="topP"
+                type="range"
+                min="0.1"
+                max="1"
+                step="0.05"
+                value="0.9"
+            >
+
+        </div>
+
+        <div class="setting-card">
+
+            <label>
+                最大生成文字数
+                <span id="maxGenerationValue">80</span>
+            </label>
+
+            <input
+                id="maxGeneration"
+                type="range"
+                min="10"
+                max="200"
+                step="5"
+                value="80"
+            >
+
+        </div>
+
+        <div class="setting-card">
+
+            <label>
+                学習Epoch
+                <span id="epochsValue">30</span>
+            </label>
+
+            <input
+                id="epochs"
+                type="range"
+                min="5"
+                max="100"
+                step="5"
+                value="30"
+            >
+
+        </div>
+
+        <button id="resetModelButton" class="danger-button">
+            モデルをリセット
+        </button>
+
+    </div>
+
+</aside>
+
+</main>
+
+<div id="overlay" class="overlay"></div>
+
+<div id="trainingModal" class="modal">
+
+    <div class="modal-card">
+
+        <h2>AIを学習中</h2>
+
+        <p id="trainingText">
+            準備しています...
+        </p>
+
+        <div class="progress">
+            <div id="progressBar" class="progress-bar"></div>
+        </div>
+
+        <div id="trainingLoss">
+            Loss: -
+        </div>
+
+    </div>
+
+</div>
+
+<div id="dataModal" class="modal">
+
+    <div class="modal-card">
+
+        <div class="modal-title-row">
+            <h2>学習データ追加</h2>
+
+            <button
+                id="closeDataModal"
+                class="icon-button"
+            >
+                ×
+            </button>
+        </div>
+
+        <label class="field-label">
+            入力
+        </label>
+
+        <textarea
+            id="trainingInput"
+            class="data-textarea"
+            placeholder="例: CSSとは？"
+        ></textarea>
+
+        <label class="field-label">
+            出力
+        </label>
+
+        <textarea
+            id="trainingOutput"
+            class="data-textarea"
+            placeholder="例: CSSはWebページの見た目を..."
+        ></textarea>
+
+        <button
+            id="saveTrainingDataButton"
+            class="primary-button"
+        >
+            学習データに追加
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+<script type="module" src="./js/app.js"></script>
+
+</body>
+</html>
