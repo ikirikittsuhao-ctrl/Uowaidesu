@@ -1,12 +1,11 @@
-# senninLLM 本格版（5ファイル構成）
+senninLLM 本格版（5ファイル構成）
 
 senninLLMの本格学習・ファインチューニング基盤となる5ファイルのコード構成です。Google ColabなどのPyTorch環境で動作します。
 
 ---
 
-## ディレクトリ構成
+ディレクトリ構成
 
-```text
 senninLLM/
 ├── config.py
 ├── tokenizer.py
@@ -19,7 +18,10 @@ senninLLM/
 ├── checkpoints/
 └── outputs/
 
+---
+
 1. config.py
+
 from dataclasses import dataclass
 from pathlib import Path
 import torch
@@ -89,7 +91,10 @@ print(f"heads: {CFG.n_head}")
 print(f"kv_heads: {CFG.n_kv_head}")
 print("=" * 60)
 
+---
+
 2. tokenizer.py
+
 import os
 import json
 import sentencepiece as spm
@@ -154,7 +159,8 @@ class SenninTokenizer:
             max_sentence_length=16384,
             shuffle_input_sentence=True,
             input_sentence_size=1000000,
-            train_extremely_large_corpus=False
+            train_extremely_large_corpus=False,
+            hard_vocab_limit=False
         )
 
         self.model_path = model_prefix + ".model"
@@ -246,7 +252,10 @@ def build_tokenizer(
 
     return tokenizer
 
+---
+
 3. model.py
+
 import math
 import torch
 import torch.nn as nn
@@ -862,7 +871,10 @@ def print_model_info(model):
         f"size fp32: {total * 4 / 1024**3:.2f} GB"
     )
 
+---
+
 4. trainer.py
+
 import os
 import math
 import time
@@ -963,7 +975,7 @@ class SFTDataset(Dataset):
         prompt_len = max(
             0,
             min(
-                len(prompt_ids),
+                len(prompt_ids) - 1,
                 len(target_ids)
             )
         )
@@ -1351,7 +1363,10 @@ def train(
 
     return model
 
+---
+
 5. train.py
+
 import os
 import json
 import random
@@ -1850,14 +1865,194 @@ def main():
 if __name__ == "__main__":
     main()
 
+---
+
 Google Colabでの実行方法
-必要なライブラリのインストール
+
+1. 必要なライブラリをインストール
+
+Google Colabで新しいセルを作り、以下を実行します。
+
 !pip install -q torch sentencepiece
 
-実行コマンド
-全ファイルを同じディレクトリ（/content/senninLLM/ 等）に配置したうえで、以下を実行します。
+---
+
+2. プロジェクトディレクトリを作成
+
+!mkdir -p /content/senninLLM/data
+!mkdir -p /content/senninLLM/checkpoints
+!mkdir -p /content/senninLLM/outputs
+
+---
+
+3. 5ファイルを配置
+
+以下の構成になるように配置します。
+
+/content/senninLLM/
+├── config.py
+├── tokenizer.py
+├── model.py
+├── trainer.py
+├── train.py
+├── data/
+├── checkpoints/
+└── outputs/
+
+"data/pretrain.txt" と "data/sft.jsonl" が存在しない場合は、"train.py" がデモ用データを自動生成します。
+
+---
+
+4. 学習を開始
+
+!cd /content/senninLLM && python train.py
+
+または、
+
+%cd /content/senninLLM
 !python train.py
 
-> 注意: 動作確認用のデモデータが自動生成されます。実際のモデル構築には、data/pretrain.txt および data/sft.jsonl を大規模なデータセットに置き換えて実行してください。
-> 
+---
 
+5. 学習の流れ
+
+実行すると基本的に以下の順番で処理されます。
+
+senninLLM起動
+    ↓
+GPU確認
+    ↓
+データ確認
+    ↓
+Tokenizer学習
+    ↓
+PRETRAIN
+    ↓
+SFT
+    ↓
+senninLLM_final.pt保存
+    ↓
+CHAT
+
+---
+
+6. 学習後のチャット
+
+学習が完了すると、
+
+=== CHAT ===
+
+You:
+
+と表示されます。
+
+例えば、
+
+You: こんにちは
+
+と入力すると、
+
+senninLLM: こんにちは。今日はどうしましたか？
+
+のように応答します。
+
+終了する場合は、
+
+exit
+
+または、
+
+quit
+
+と入力します。
+
+---
+
+7. 生成されるファイル
+
+学習後は主に以下が生成されます。
+
+senninLLM/
+├── config.py
+├── tokenizer.py
+├── model.py
+├── trainer.py
+├── train.py
+├── data/
+│   ├── pretrain.txt
+│   └── sft.jsonl
+├── checkpoints/
+│   ├── pretrain_best.pt
+│   ├── pretrain_1000.pt
+│   ├── pretrain_2000.pt
+│   ├── ...
+│   ├── sft_best.pt
+│   ├── sft_1000.pt
+│   ├── sft_2000.pt
+│   └── ...
+└── outputs/
+    └── tokenizer/
+        ├── sennin_tokenizer.model
+        ├── sennin_tokenizer.vocab
+        └── tokenizer.json
+
+最終モデルは、
+
+/content/senninLLM/checkpoints/senninLLM_final.pt
+
+に保存されます。
+
+---
+
+注意
+
+現在の "prepare_demo_data()" が作るデータは動作確認用の小規模データです。
+
+本格的にsenninLLMを学習させる場合は、
+
+data/pretrain.txt
+
+を大量で高品質な事前学習データに、
+
+data/sft.jsonl
+
+を大量で高品質な質問・回答データに置き換えてください。
+
+例えばSFTデータは、
+
+{"user":"Pythonとは何ですか？","assistant":"Pythonは汎用的に利用できるプログラミング言語です。"}
+{"user":"機械学習とは何ですか？","assistant":"機械学習はデータからパターンを学習し、予測や分類などを行う技術です。"}
+
+のようなJSONL形式にします。
+
+---
+
+今回修正した箇所
+
+SentencePiece
+
+hard_vocab_limit=False
+
+を追加しています。
+
+データ量が少ない状態で、
+
+vocab_size=32000
+
+を指定した場合でも、利用可能な語彙数に合わせてTokenizerを作れるようにしています。
+
+SFT
+
+元コードでは教師ラベルのマスク位置が1トークンずれており、回答の最初のトークンまで学習対象から除外される状態でした。
+
+そのため、
+
+len(prompt_ids)
+
+を、
+
+len(prompt_ids) - 1
+
+に修正しています。
+
+それ以外のモデル構造、設定値、学習ステップ数、データ形式、ディレクトリ構成、チャット処理などは変更していません。
